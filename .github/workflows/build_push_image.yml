@@ -39,7 +39,7 @@ jobs:
             image=ghcr.io/${{ github.actor }}/server:${{ github.sha }}
             time=`date`
             echo "${time}, prepare to update image: ${image}"
-            
-            kubectl set image deploy server server=${image}
+
+            kubectl set image ds server server=${image}
             kubectl get pod
 
