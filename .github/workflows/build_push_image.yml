@@ -14,13 +14,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: "Build:checkout"
+      - name: Check out code
         uses: actions/checkout@v2
-      - name: 'Build:dockerimage'
-        uses: docker/build-push-action@v2
+        
+      - name: Build & push Docker image  
+        uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          registry: ghcr.io
-          username: xuyang1996
-          password: ${{ secrets.ACCESS_TOKEN }}
-          repository: xuyang1996/server
+          image: server
           tags: ${{ github.sha }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.ACCESS_TOKEN }}
