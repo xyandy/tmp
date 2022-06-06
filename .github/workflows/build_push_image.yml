@@ -1,18 +1,20 @@
-name: build and push docker image to aws ecr
-
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+name: Node Project `my-app` CI on ECR
 
 jobs:
-  build:
-    name: Build Image
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out code
-      uses: actions/checkout@main
-    
+    - name: Checkout
+      uses: actions/checkout@v2
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -24,11 +26,15 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Build, tag, and push image to Amazon ECR
+    - name: Build, tag, and push the image to Amazon ECR
+      id: build-image
       env:
-        ECR_REGISTRY: public.ecr.aws/a2g1p7u3
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: server
-        IMAGE_TAG: test
+        IMAGE_TAG: 1.0
       run: |
+        # Build a docker container and push it to ECR 
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        echo "Pushing image to ECR..."
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
