@@ -17,14 +17,14 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
         
-      # - name: Build & push Docker image  
-      #   uses: mr-smithers-excellent/docker-build-push@v5
-      #   with:
-      #     image: server
-      #     tags: ${{ github.sha }}
-      #     registry: ghcr.io
-      #     username: ${{ github.actor }}
-      #     password: ${{ secrets.ACCESS_TOKEN }}
+      - name: Build & push Docker image  
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: server
+          tags: ${{ github.sha }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.ACCESS_TOKEN }}
         # docker pull ghcr.io/xuyang1996/server:67028d43c1f7d83c4c0f8b9fee7a89bf9ac767e3
 
       - name: Deploy EKS
@@ -37,6 +37,9 @@ jobs:
         with:
           args: |
             image=ghcr.io/${{ github.actor }}/server:${{ github.sha }}
-            echo "$image"
+            time=`date`
+            echo "${time}, prepare to update image: ${image}"
+            
+            kubectl set image deploy server server=${image}
             kubectl get pod
 
