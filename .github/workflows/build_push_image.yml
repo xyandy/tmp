@@ -36,6 +36,7 @@ jobs:
           cluster_name: panda-k8s
         with:
           args: |
-            kubectl get node
+            image=ghcr.io/${{ github.actor }}/server:${{ github.sha }}
+            echo "$image"
             kubectl get pod
 
