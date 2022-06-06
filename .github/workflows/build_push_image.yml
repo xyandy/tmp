@@ -17,10 +17,10 @@ jobs:
       - name: "Build:checkout"
         uses: actions/checkout@v2
       - name: 'Build:dockerimage'
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v2
         with:
           registry: ghcr.io
           username: xuyang1996
           password: ${{ secrets.ACCESS_TOKEN }}
-          repository: server
+          repository: xuyang1996/server
           tags: ${{ github.sha }}
