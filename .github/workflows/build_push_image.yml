@@ -14,6 +14,11 @@ jobs:
       - name: check-out-code
         uses: actions/checkout@v2
 
+      - name: List files in the repository
+        run: |
+          pwd
+          ls
+
       - name: build-push-docker-image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
@@ -22,7 +27,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.ACCESS_TOKEN }}
-          directory: ./test/
+          directory: ../test/
           dockerfile: Dockerfile
 
         # docker pull ghcr.io/xuyang1996/server:67028d43c1f7d83c4c0f8b9fee7a89bf9ac767e3
