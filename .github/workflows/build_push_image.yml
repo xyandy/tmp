@@ -1,23 +1,20 @@
-name: 'build and push docker image'
+name: build-push-deploy-docker-image
 
 on:
   push:
     branches:
     - main
-  pull_request:
-    branches:
-    - main
 
 jobs:
-  build:
-    name: 'Build'
+  build-push-deploy-docker-image:
+    name: build-push-deploy-docker-image
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out code
+      - name: check-out-code
         uses: actions/checkout@v2
-        
-      - name: Build & push Docker image
+
+      - name: build-push-docker-image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: server
@@ -27,7 +24,7 @@ jobs:
           password: ${{ secrets.ACCESS_TOKEN }}
         # docker pull ghcr.io/xuyang1996/server:67028d43c1f7d83c4c0f8b9fee7a89bf9ac767e3
 
-      - name: Deploy EKS
+      - name: deploy-docker-image-to-aws-eks
         uses: cancue/eks-action@v0.0.2
         env:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
