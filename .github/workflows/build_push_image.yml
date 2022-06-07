@@ -39,7 +39,7 @@ jobs:
           cluster_name: panda-k8s
         with:
           args: |
-            image=ghcr.io/${{ github.actor }}/server:${{ github.sha }}
+            image=ghcr.io/${{ github.actor }}/busyboxplus:${{ github.sha }}
             time=`date`
             echo "${time}, prepare to update image: ${image}"
 
