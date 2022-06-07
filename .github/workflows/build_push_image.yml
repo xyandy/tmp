@@ -26,25 +26,23 @@ jobs:
           tags: ${{ github.sha }}
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.ACCESS_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
           directory: ./test/
           dockerfile: ./test/Dockerfile
 
-        # docker pull ghcr.io/xuyang1996/server:67028d43c1f7d83c4c0f8b9fee7a89bf9ac767e3
+      - name: deploy-docker-image-to-aws-eks
+        uses: cancue/eks-action@v0.0.2
+        env:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ap-northeast-1
+          cluster_name: panda-k8s
+        with:
+          args: |
+            image=ghcr.io/${{ github.actor }}/server:${{ github.sha }}
+            time=`date`
+            echo "${time}, prepare to update image: ${image}"
 
-      # - name: deploy-docker-image-to-aws-eks
-      #   uses: cancue/eks-action@v0.0.2
-      #   env:
-      #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws_region: ap-northeast-1
-      #     cluster_name: panda-k8s
-      #   with:
-      #     args: |
-      #       image=ghcr.io/${{ github.actor }}/server:${{ github.sha }}
-      #       time=`date`
-      #       echo "${time}, prepare to update image: ${image}"
-
-      #       kubectl set image ds server server=${image}
-      #       kubectl get pod
+            kubectl set image ds server server=${image}
+            kubectl get pod
 
