@@ -2,11 +2,14 @@ name: build-push-deploy-docker-image
 
 on:
   push:
-    branches:
-    - main
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types: [closed]
 
 jobs:
   build-push-deploy-docker-image:
+    if: github.event.pull_request.merged == true
     name: build-push-deploy-docker-image
     runs-on: ubuntu-latest
 
@@ -14,21 +17,25 @@ jobs:
       - name: check-out-code
         uses: actions/checkout@v2
 
-      - name: List files in the repository
-        run: |
-          pwd
-          ls
-
       - name: build-push-docker-image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: busyboxplus
           tags: ${{ github.sha }}
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
           directory: ./test/
           dockerfile: ./test/Dockerfile
+          registry: 312013929070.dkr.ecr.ap-northeast-1.amazonaws.com
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        # with:
+        #   image: busyboxplus
+        #   tags: ${{ github.sha }}
+        #   registry: ghcr.io
+        #   username: ${{ github.actor }}
+        #   password: ${{ secrets.GITHUB_TOKEN }}
+        #   directory: ./test/
+        #   dockerfile: ./test/Dockerfile
 
       - name: deploy-docker-image-to-aws-eks
         uses: cancue/eks-action@v0.0.2
