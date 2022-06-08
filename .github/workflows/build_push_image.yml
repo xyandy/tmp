@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-push-deploy-docker-image:
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
     name: build-push-deploy-docker-image
     runs-on: ubuntu-latest
 
