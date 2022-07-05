@@ -23,17 +23,13 @@ jobs:
 
       - name: build-and-push-docker-image
         run: |
-          aws_ecr="312013929070.dkr.ecr.ap-northeast-1.amazonaws.com/panda-cronjob"
-          git_hash=$(git rev-parse --short "$GITHUB_SHA")
-
           aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 312013929070.dkr.ecr.ap-northeast-1.amazonaws.com
 
           list=`ls -d */`
           for dir in ${list}
           do
               echo "------------------------ prepare to build docker image in ${dir} ------------------------"
-              tag=${dir%?}-${git_hash}
-              image=$aws_ecr:$tag
+              image=`cat ${dir}/deploy.yaml | grep "image:" | awk '{print $2}'`
               docker build -f $dir/Dockerfile -t $image $dir
 
               echo "------------------------ prepare to push docker image in ${dir} ------------------------"

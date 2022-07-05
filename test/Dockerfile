@@ -1,3 +1,3 @@
 FROM radial/busyboxplus
 
-CMD ["sh"]
+CMD ["sh", "-c", "sleep 10"]
