@@ -31,14 +31,14 @@ jobs:
           list=`ls -d */`
           for dir in ${list}
           do
-              echo "------------------------ prepare to build docker image in ${dir} ------------------------\n"
+              echo "------------------------ prepare to build docker image in ${dir} ------------------------"
               tag=${dir%?}-${git_hash}
               image=$aws_ecr:$tag
               docker build -f $dir/Dockerfile -t $image $dir
 
-              echo "------------------------ prepare to push docker image in ${dir} ------------------------\n"
+              echo "------------------------ prepare to push docker image in ${dir} ------------------------"
               docker push $image
-              echo "\n\n"
+              echo ""
           done
 
       - name: deploy-docker-image-to-aws-eks
@@ -54,14 +54,14 @@ jobs:
             list=`ls -d */`
             for dir in ${list}
             do
-                echo "------------------------ prepare to push docker image in ${dir} ------------------------\n"
+                echo "------------------------ prepare to push docker image in ${dir} ------------------------"
                 kubectl apply -f ${dir}/deploy.yaml
-                echo "\n\n"
+                echo ""
             done
 
-            echo "------------------------ get cronjob -n test ------------------------\n"
+            echo "------------------------ get cronjob -n test ------------------------"
             kubectl get cronjob -n test
-            echo "------------------------ get cronjob -n prod ------------------------\n"
+            echo "------------------------ get cronjob -n prod ------------------------"
             kubectl get cronjob -n prod
 
       # - name: build-push-docker-image
