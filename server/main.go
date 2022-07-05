@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"net/http"
 	"time"
@@ -32,24 +31,27 @@ func sortFlightsHandler(c *gin.Context) {
 }
 
 func main() {
-	flag.IntVar(&port, "port", 9000, "http server port")
+	// flag.IntVar(&port, "port", 9000, "http server port")
 
-	gin.SetMode(gin.ReleaseMode)
-	router := gin.Default()
-	router.HandleMethodNotAllowed = true
-	router.POST("/sort_flights", sortFlightsHandler)
+	// gin.SetMode(gin.ReleaseMode)
+	// router := gin.Default()
+	// router.HandleMethodNotAllowed = true
+	// router.POST("/sort_flights", sortFlightsHandler)
 
-	server := &http.Server{
-		Addr:         fmt.Sprintf(":%d", port),
-		Handler:      router,
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 10 * time.Second,
-	}
+	// server := &http.Server{
+	// 	Addr:         fmt.Sprintf(":%d", port),
+	// 	Handler:      router,
+	// 	ReadTimeout:  10 * time.Second,
+	// 	WriteTimeout: 10 * time.Second,
+	// }
 
+	// fmt.Println("server starts at port", port)
+
+	// err := server.ListenAndServe()
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 	fmt.Println("server starts at port", port)
-
-	err := server.ListenAndServe()
-	if err != nil {
-		fmt.Println(err)
-	}
+	time.Sleep(time.Second * 20)
+	fmt.Println("server stops at port", port)
 }

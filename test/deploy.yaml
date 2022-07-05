@@ -1,0 +1,21 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: test
+  namespace: test
+spec:
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: test
+            image: 312013929070.dkr.ecr.ap-northeast-1.amazonaws.com/panda-cronjob:server-c2e6665
+  schedule: "*/1 * * * *"
+  successfulJobsHistoryLimit: 3
+  suspend: false

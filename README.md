@@ -1,55 +1,14 @@
-# tmp
+# 每一个目录就是一个cronjob，必须保证唯一
 
-# Api doc
+# 每个目录必须包含
+1. Dockerfile
+2. 代码
+3. deploy.yaml
 
-```
-http request:
+关于Deploy.yaml请参考
+- deploy_template.yaml
+- get_deploy_yaml.sh
+- deploy_test.yaml (例子)
 
-POST /sort_flights
-{
-    "flights": [
-        ["D", "E"],
-        ["A", "B"],
-        ["B", "C"],
-        ["E", "F"],
-        ["C", "D"]
-    ]
-}
-
-http response:
-
-["A","F"]
-
-```
-
-
-# Start http server
-
-```
-sh start.sh
-```
-
-# Curl sample
-
-```
-http request:
-
-curl --location --request POST 'http://localhost:9000/sort_flights' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "flights": [
-        ["D", "E"],
-        ["A", "B"],
-        ["B", "C"],
-        ["E", "F"],
-        ["C", "D"]
-    ]
-}'
-
-http response:
-
-["A","F"]
-
-```
-
-# You can see algorithm details in flights directory 
+关于Docker Image请参考
+- get_docker_image.sh
