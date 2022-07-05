@@ -14,7 +14,7 @@ spec:
           containers:
           - name: pytest
             # command: {cronjob_cmd}
-            image: 312013929070.dkr.ecr.ap-northeast-1.amazonaws.com/panda-cronjob:pytest-c601cee
+            image: 312013929070.dkr.ecr.ap-northeast-1.amazonaws.com/panda-cronjob:pytest-0d47726
   schedule: "*/1 * * * *"
   successfulJobsHistoryLimit: 3
   suspend: false
