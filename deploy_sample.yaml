@@ -13,7 +13,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: {cronjob_name}
-            command: {cronjob_cmd}
+            # command: {cronjob_cmd}
             image: {docker_image}
   schedule: {schedule_expression}
   successfulJobsHistoryLimit: 3
