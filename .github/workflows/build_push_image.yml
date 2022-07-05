@@ -28,11 +28,27 @@ jobs:
           # role-duration-seconds: 1200
           # role-session-name: MySessionName
 
-      - name: List files in the repository
+      - name: build and push docker image
         run: |
-          ls ${{ github.workspace }}
-          docker ps
+          aws_ecr="312013929070.dkr.ecr.ap-northeast-1.amazonaws.com/panda-cronjob"
+          github_sha=${{ github.sha }}
+          github_sha="312013929070"
+          commit=${github_sha: 0 :10}
+
           aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 312013929070.dkr.ecr.ap-northeast-1.amazonaws.com
+
+          list=`ls -d */`
+          for dir in ${list}
+          do
+              echo "prepare to build docker image in ${dir}"
+              tag=${dir%?}-${commit}
+              image=$aws_ecr:$tag
+              docker build -f $dir/Dockerfile -t $image $dir
+
+              echo "prepare to push docker image in ${dir}"
+              docker push $image
+          done
+          
       # - name: build-push-docker-image
       #   uses: mr-smithers-excellent/docker-build-push@v5
       #   with:
