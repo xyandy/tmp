@@ -1,8 +1,7 @@
 FROM golang:1.16-alpine as builder
 
 WORKDIR /go/src
-COPY main.go go.mod go.sum ./
-COPY flights/ ./flights/
+COPY . /go/src
 
 RUN go env -w GOPROXY=https://goproxy.cn,direct
 RUN go build -o server main.go
