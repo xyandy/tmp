@@ -1,4 +1,8 @@
-# 每一个目录就是一个cronjob，必须保证唯一
+# Usage
+
+```
+./add_cronjob.sh {cronjob_name}
+```
 
 # 每个目录必须包含
 1. Dockerfile

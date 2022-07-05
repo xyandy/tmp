@@ -21,7 +21,7 @@ echo "note that this image will be deployed to k8s cluster after you make this p
 
 cp Dockerfile_sample ./${cronjob_name}/Dockerfile
 cp sample.py ./${cronjob_name}/sample.py
-
+cp get_docker_image.sh ./${cronjob_name}/get_docker_image.sh
 
 ns="test"
 schedule_expression='"*/1 * * * *"'
