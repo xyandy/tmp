@@ -4,9 +4,9 @@
 ./add_cronjob.sh {cronjob_name}
 ```
 
-# 每个目录必须包含
+# 每个目录包含
 1. Dockerfile
-2. 代码
+2. 代码 (最好有)
 3. deploy.yaml
 
 关于Deploy.yaml请参考
