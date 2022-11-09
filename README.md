@@ -16,3 +16,8 @@
 
 关于Docker Image请参考
 - get_docker_image.sh
+
+privatekey
+privateKey
+private_key
+PRIVATE_KEY
